@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drew's Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0c0c0c;
+      --surface: #141414;
+      --card: #1a1a1a;
+      --border: #2a2a2a;
+      --accent: #e8ff00;
+      --text: #f0f0f0;
+      --muted: #555;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* FLASH OVERLAY */
+    #flash {
+      position: fixed;
+      inset: 0;
+      background: var(--accent);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    #flash.show {
+      animation: flash-anim 1.6s ease forwards;
+    }
+
+    @keyframes flash-anim {
+      0%   { opacity: 0; }
+      10%  { opacity: 1; }
+      70%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    #flash-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 6vw, 5rem);
+      color: #000;
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(12,12,12,0.9);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    #hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 3rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.2;
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin-bottom: 2rem;
+    }
+
+    h1 em {
+      color: var(--accent);
+      font-style: normal;
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 420px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      background: var(--accent);
+      color: #000;
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .hero-cta:hover { background: #fff; transform: translateX(4px); }
+
+    .page-section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: 0.05em;
+      margin-bottom: 2rem;
+    }
+
+    .rant-box {
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .rant-box::before {
+      content: '"';
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      color: var(--accent);
+      opacity: 0.15;
+      position: absolute;
+      top: -1rem;
+      left: 1.5rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .rant-text {
+      font-size: 1.05rem;
+      line-height: 2;
+      color: #bbb;
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+
+    .rant-text strong { color: var(--accent); font-weight: 600; }
+
+    #game { border-bottom: none; }
+
+    .slot-wrap {
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .slot-top {
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .reels-area {
+      background: #000;
+      padding: 2.5rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .reel-window {
+      width: 95px;
+      height: 115px;
+      background: #050505;
+      border: 1px solid #222;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .reel-track { display: flex; flex-direction: column; }
+    .reel-track.spinning { animation: spin-fast 0.07s linear infinite; }
+
+    @keyframes spin-fast {
+      0%  { transform: translateY(0); }
+      100%{ transform: translateY(-115px); }
+    }
+
+    .reel-symbol {
+      width: 95px;
+      height: 115px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      flex-shrink: 0;
+    }
+
+    .reel-line {
+      position: absolute;
+      top: 50%; left: -4px; right: -4px;
+      height: 1px;
+      background: var(--accent);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .slot-controls {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .credit-box {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .credit-box strong {
+      display: block;
+      font-size: 1.6rem;
+      color: var(--text);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .spin-btn {
+      padding: 0.85rem 2.5rem;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .spin-btn:hover:not(:disabled) { background: #fff; }
+    .spin-btn:active:not(:disabled) { transform: scale(0.97); }
+    .spin-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .result-area {
+      border-top: 1px solid var(--border);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.1em;
+      min-height: 3.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+    }
+
+    .result-area.win { color: var(--accent); }
+    .result-area.lose { color: #444; }
+
+    .payouts {
+      margin-top: 1px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border);
+      border-top: none;
+    }
+
+    .pay-row {
+      background: var(--surface);
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    .pay-row:nth-child(3n) { border-right: none; }
+    .pay-combo { font-size: 1rem; }
+    .pay-val { font-family: 'DM Mono', monospace; color: var(--accent); font-size: 0.75rem; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.5rem; }
+      #hero, .page-section { padding: 4rem 1.5rem; }
+      .reel-window { width: 78px; }
+      .reel-symbol { width: 78px; font-size: 2.2rem; }
+      .payouts { grid-template-columns: repeat(2, 1fr); }
+      #flash-text { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FLASH OVERLAY -->
+  <div id="flash">
+    <div id="flash-text">You just took orders from Drew Omann.</div>
+  </div>
+
+  <nav>
+    <div class="nav-logo">DREW</div>
+    <ul class="nav-links">
+      <li><a href="#rant">Rant</a></li>
+      <li><a href="#game">Play</a></li>
+    </ul>
+  </nav>
+
+  <div id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Personal Website</div>
+      <h1>
+        I'm Better Than You
+        <em>Because I Have My Own Website.</em>
+      </h1>
+      <p class="hero-sub">Do you have a website? Didn't think so. Scroll down and play the slot machine.</p>
+      <a href="#game" class="hero-cta">Play the Game →</a>
+    </div>
+  </div>
+
+  <div class="page-section" id="rant">
+    <div class="section-label">Rant</div>
+    <h2>Why Does This Exist</h2>
+    <div class="rant-box">
+      <p class="rant-text">
+        Why did I make a website? <strong>I have no clue why.</strong> Probably because I was bored in school or something.<br><br>
+        If you're trying to hack my website — first of all, <strong>why?</strong> Just play the slot machine above. Second of all, it's ran by <strong>Cloudflare</strong> and good luck getting past my <strong>SSL/TLS encryption.</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="page-section" id="game">
+    <div class="section-label">Lucky Reel</div>
+    <h2>Try Your Luck</h2>
+
+    <div class="slot-wrap">
+      <div class="slot-top">Bet: 10 credits per spin</div>
+
+      <div class="reels-area">
+        <div class="reel-window">
+          <div class="reel-track" id="reel0"></div>
+          <div class="reel-line"></div>
+        </div>
+        <div class="reel-window">
+          <div class="reel-track" id="reel1"></div>
+          <div class="reel-line"></div>
+        </div>
+        <div class="reel-window">
+          <div class="reel-track" id="reel2"></div>
+          <div class="reel-line"></div>
+        </div>
+      </div>
+
+      <div class="slot-controls">
+        <div class="credit-box">
+          Credits
+          <strong id="credits">100</strong>
+        </div>
+        <button class="spin-btn" id="spinBtn" onclick="spin()">SPIN</button>
+        <div class="credit-box">
+          Last Win
+          <strong id="lastWin">—</strong>
+        </div>
+      </div>
+
+      <div class="result-area" id="resultMsg">Press spin to play</div>
+    </div>
+
+    <div class="payouts">
+      <div class="pay-row"><span class="pay-combo">🍒🍒🍒</span><span class="pay-val">+50</span></div>
+      <div class="pay-row"><span class="pay-combo">⭐⭐⭐</span><span class="pay-val">+100</span></div>
+      <div class="pay-row"><span class="pay-combo">💎💎💎</span><span class="pay-val">+200</span></div>
+      <div class="pay-row"><span class="pay-combo">🍋🍋🍋</span><span class="pay-val">+30</span></div>
+      <div class="pay-row"><span class="pay-combo">🔔🔔🔔</span><span class="pay-val">+75</span></div>
+      <div class="pay-row"><span class="pay-combo">Any Pair</span><span class="pay-val">+5</span></div>
+    </div>
+  </div>
+
+  <footer>© Drew — All Rights Reserved — Yes, Even The Slot Machine</footer>
+
+  <script>
+    const SYMBOLS = ['🍒', '🍋', '🔔', '⭐', '💎'];
+    const PAYOUTS = { '🍒🍒🍒': 50, '🍋🍋🍋': 30, '🔔🔔🔔': 75, '⭐⭐⭐': 100, '💎💎💎': 200 };
+    let credits = 100;
+    let spinning = false;
+    let firstSpin = true;
+
+    function setSymbol(id, sym) {
+      const track = document.getElementById(id);
+      track.classList.remove('spinning');
+      track.innerHTML = `
+        <div class="reel-symbol"></div>
+        <div class="reel-symbol">${sym}</div>
+        <div class="reel-symbol"></div>
+      `;
+      track.style.transform = 'translateY(-115px)';
+    }
+
+    function init() {
+      ['reel0','reel1','reel2'].forEach(id =>
+        setSymbol(id, SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)])
+      );
+    }
+
+    function triggerFlash() {
+      const flash = document.getElementById('flash');
+      flash.classList.add('show');
+      setTimeout(() => flash.classList.remove('show'), 1700);
+    }
+
+    function doSpin() {
+      if (spinning) return;
+      if (credits < 10) {
+        const msg = document.getElementById('resultMsg');
+        msg.className = 'result-area lose';
+        msg.textContent = 'Out of credits. Refilling...';
+        setTimeout(() => { credits = 100; updateUI(); msg.className = 'result-area'; msg.textContent = 'Refilled. Good luck.'; }, 1200);
+        return;
+      }
+
+      spinning = true;
+      credits -= 10;
+      updateUI();
+      document.getElementById('spinBtn').disabled = true;
+      const msg = document.getElementById('resultMsg');
+      msg.className = 'result-area';
+      msg.textContent = 'Spinning...';
+
+      const result = [0,1,2].map(() => SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]);
+      ['reel0','reel1','reel2'].forEach(id => document.getElementById(id).classList.add('spinning'));
+      [700, 1100, 1500].forEach((delay, i) => setTimeout(() => setSymbol(`reel${i}`, result[i]), delay));
+
+      setTimeout(() => {
+        const combo = result.join('');
+        let win = PAYOUTS[combo] || 0;
+        if (!win && (result[0]===result[1] || result[1]===result[2] || result[0]===result[2])) win = 5;
+
+        if (win > 0) {
+          credits += win;
+          document.getElementById('lastWin').textContent = `+${win}`;
+          msg.className = 'result-area win';
+          msg.textContent = win >= 100 ? `JACKPOT — +${win} Credits` : win >= 50 ? `Winner — +${win} Credits` : `+${win} Credits`;
+        } else {
+          document.getElementById('lastWin').textContent = '0';
+          msg.className = 'result-area lose';
+          msg.textContent = ['No match.', 'Better luck next time.', 'Not quite.', 'Try again.'][Math.floor(Math.random()*4)];
+        }
+
+        updateUI();
+        spinning = false;
+        document.getElementById('spinBtn').disabled = false;
+      }, 1900);
+    }
+
+    function spin() {
+      if (firstSpin) {
+        firstSpin = false;
+        triggerFlash();
+      }
+      doSpin();
+    }
+
+    function updateUI() { document.getElementById('credits').textContent = credits; }
+
+    init();
+  </script>
+
+</body>
+</html>
