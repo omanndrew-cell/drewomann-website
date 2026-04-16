@@ -206,66 +206,151 @@
 
     .about-text strong { color: var(--text); font-weight: 600; }
 
-    /* Projects */
-    .projects-grid {
+    /* Experience */
+    .timeline { display: flex; flex-direction: column; gap: 1px; }
+
+    .timeline-item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      transition: border-color 0.2s;
+    }
+
+    .timeline-item:hover { border-color: var(--accent); }
+
+    .timeline-role {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-company {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .timeline-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Education */
+    .edu-card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      transition: border-color 0.2s;
+    }
+
+    .edu-card:hover { border-color: var(--accent); }
+
+    .edu-school {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+
+    .edu-degree {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-skills {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .edu-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Skills */
+    .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1px;
     }
 
-    .project-card {
+    .skill-item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 1.2rem 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .skill-item:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Certifications */
+    .cert-card {
       border: 1px solid var(--border);
       background: var(--card);
       padding: 2rem;
       transition: border-color 0.2s;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
     }
 
-    .project-card:hover { border-color: var(--accent); }
+    .cert-card:hover { border-color: var(--accent); }
 
-    .project-name {
+    .cert-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
     }
 
-    .project-desc {
-      font-size: 0.92rem;
-      color: var(--muted);
-      line-height: 1.7;
-      font-weight: 300;
-      flex: 1;
-    }
-
-    .project-tags {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .project-tag {
+    .cert-issuer {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      padding: 0.3rem 0.7rem;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    .project-link {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       color: var(--accent);
-      text-decoration: none;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      transition: color 0.2s;
+      margin-bottom: 0.5rem;
     }
 
-    .project-link:hover { color: #fff; }
+    .cert-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
 
     /* Contact */
     .contact-links {
@@ -307,8 +392,10 @@
 
     @media (max-width: 600px) {
       nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
       #hero, .page-section { padding: 4rem 1.5rem; }
-      .projects-grid { grid-template-columns: 1fr; }
+      .timeline-item, .edu-card { flex-direction: column; gap: 0.5rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -318,7 +405,8 @@
     <div class="nav-logo">DREW OMANN</div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -326,14 +414,14 @@
   <div id="hero">
     <div class="hero-grid"></div>
     <div class="hero-content">
-      <div class="hero-tag">Portfolio</div>
+      <div class="hero-tag">Minneapolis, Minnesota</div>
       <h1>
         Drew Omann
-        <em>Developer & Creator</em>
+        <em>Shift Lead &amp; Hands-On Builder</em>
       </h1>
-      <p class="hero-sub">Building things for the web. Take a look at my work below.</p>
+      <p class="hero-sub">Team leader with experience in automotive repair, metal fabrication, and food service. Currently a shift lead at Detello's Pizza &amp; Pasta.</p>
       <div class="hero-buttons">
-        <a href="#projects" class="hero-cta">View Projects &rarr;</a>
+        <a href="#experience" class="hero-cta">View Experience &rarr;</a>
         <a href="#contact" class="hero-cta secondary">Get in Touch</a>
       </div>
     </div>
@@ -343,36 +431,68 @@
     <div class="section-label">About</div>
     <h2>Who I Am</h2>
     <p class="about-text">
-      I'm <strong>Drew Omann</strong>, a developer with a passion for building clean, functional websites and applications. I enjoy working across the full stack and am always looking to learn something new.
+      I'm <strong>Drew Omann</strong>, based in Minneapolis, Minnesota. I'm a hands-on worker with experience spanning <strong>automotive repair</strong>, <strong>metal fabrication</strong>, and <strong>team leadership</strong> in the food industry. I'm currently finishing my diploma at <strong>Minnetonka Public Schools</strong> while working as a shift lead at Detello's Pizza &amp; Pasta.
     </p>
   </div>
 
-  <div class="page-section" id="projects">
-    <div class="section-label">Projects</div>
-    <h2>What I've Built</h2>
-    <div class="projects-grid">
-
-      <div class="project-card">
-        <div class="project-name">Project One</div>
-        <p class="project-desc">A brief description of this project and what it does. Replace this with your actual project details.</p>
-        <div class="project-tags">
-          <span class="project-tag">HTML</span>
-          <span class="project-tag">CSS</span>
-          <span class="project-tag">JavaScript</span>
+  <div class="page-section" id="experience">
+    <div class="section-label">Experience</div>
+    <h2>Where I've Worked</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div>
+          <div class="timeline-role">Shift Lead</div>
+          <div class="timeline-company">Detello's Pizza &amp; Pasta &middot; Part-Time</div>
+          <p class="timeline-desc">Leading shifts and managing team operations in a fast-paced restaurant environment.</p>
         </div>
-        <a href="#" class="project-link">View Project &rarr;</a>
+        <div class="timeline-date">May 2025 &ndash; Present</div>
       </div>
-
-      <div class="project-card">
-        <div class="project-name">Project Two</div>
-        <p class="project-desc">A brief description of this project and what it does. Replace this with your actual project details.</p>
-        <div class="project-tags">
-          <span class="project-tag">HTML</span>
-          <span class="project-tag">CSS</span>
+      <div class="timeline-item">
+        <div>
+          <div class="timeline-role">Shop Assistant</div>
+          <div class="timeline-company">Browns Tire &amp; Auto &middot; Part-Time</div>
+          <p class="timeline-desc">Assisted with automotive repair, maintenance, and customer service at an on-site shop in Chanhassen, MN.</p>
         </div>
-        <a href="#" class="project-link">View Project &rarr;</a>
+        <div class="timeline-date">Apr 2024 &ndash; Jun 2025</div>
       </div>
+    </div>
+  </div>
 
+  <div class="page-section" id="education">
+    <div class="section-label">Education</div>
+    <h2>Where I Studied</h2>
+    <div class="edu-card">
+      <div>
+        <div class="edu-school">Minnetonka Public Schools</div>
+        <div class="edu-degree">High School Diploma</div>
+        <p class="edu-skills">Coursework in automotive repair, metal fabrication, 3D printing, 3D modeling, welding, and more.</p>
+      </div>
+      <div class="edu-date">Sep 2022 &ndash; Jun 2026</div>
+    </div>
+  </div>
+
+  <div class="page-section" id="skills">
+    <div class="section-label">Skills</div>
+    <h2>What I Know</h2>
+    <div class="skills-grid">
+      <div class="skill-item">Team Leadership</div>
+      <div class="skill-item">MIG Welding</div>
+      <div class="skill-item">TIG Welding</div>
+      <div class="skill-item">Metal Fabrication</div>
+      <div class="skill-item">Automotive Repair</div>
+      <div class="skill-item">Maintenance &amp; Repair</div>
+      <div class="skill-item">3D Printing</div>
+      <div class="skill-item">3D Modeling</div>
+    </div>
+  </div>
+
+  <div class="page-section" id="certifications">
+    <div class="section-label">Certifications</div>
+    <h2>Credentials</h2>
+    <div class="cert-card">
+      <div class="cert-name">Generative AI Fundamentals</div>
+      <div class="cert-issuer">Databricks &middot; Academy Accreditation</div>
+      <p class="cert-date">Issued April 2026</p>
     </div>
   </div>
 
@@ -380,10 +500,8 @@
     <div class="section-label">Contact</div>
     <h2>Get in Touch</h2>
     <div class="contact-links">
+      <a href="https://www.linkedin.com/in/drew-omann-586a50403" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/omanndrew-cell" class="contact-link" target="_blank" rel="noopener">GitHub</a>
-      <!-- Add more links as needed -->
-      <!-- <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank" rel="noopener">LinkedIn</a> -->
-      <!-- <a href="mailto:you@example.com" class="contact-link">Email</a> -->
     </div>
   </div>
 
